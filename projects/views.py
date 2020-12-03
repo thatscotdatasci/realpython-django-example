@@ -5,4 +5,4 @@ from django.http import HttpResponse
 
 
 def project_list(request):
-    return HttpResponse("Success")
+    return render(request, 'projects/index.html')
