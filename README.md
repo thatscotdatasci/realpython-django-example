@@ -1,2 +1,2 @@
-# realpython_django_example
+# Real Python Django Example App
 Real Python Django example app
