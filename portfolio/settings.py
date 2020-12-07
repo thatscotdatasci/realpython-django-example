@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     # Custom apps
     'projects',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +67,7 @@ ROOT_URLCONF = 'portfolio.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ["portfolio/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
