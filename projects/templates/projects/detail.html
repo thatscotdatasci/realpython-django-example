@@ -1,0 +1,14 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ project.title }}</title>
+</head>
+<body>
+    <h1>{{ project.title }}</h1>
+    <img src="{% static img_rel_path|add:"/"|add:project.image %}" alt="Screenshot of project">
+    <p>{{ project.description }}</p>
+</body>
+</html>

@@ -9,7 +9,8 @@ from django.views.decorators.cache import cache_page
 from django.http import HttpResponse
 from django.views import generic
 
-from .models import Project, IMG_REL_PATH
+from .models import Project
+from .mixins import ProjectImageContextMixin
 
 # Create your views here.
 
@@ -20,16 +21,16 @@ def test_endpoint(request):
     return HttpResponse("<h1>Success</h1>")
 
 
-class ProjectIndex(generic.ListView):
+class ProjectIndex(ProjectImageContextMixin, generic.ListView):
     model = Project
     paginate_by = 10
     template_name = "projects/index.html"
     ordering = ["title"]
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['img_rel_path'] = IMG_REL_PATH
-        return context
+
+class ProjectDetail(ProjectImageContextMixin, generic.DetailView):
+    model = Project
+    template_name = "projects/detail.html"
 
 
 @method_decorator(cache_page(CACHE_TTL), name='dispatch')
