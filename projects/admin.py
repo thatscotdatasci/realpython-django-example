@@ -6,8 +6,7 @@ from .models import Project
 
 
 class ProjectAdmin(admin.ModelAdmin):
-    # Placeholder for customisation
-    pass
+    list_display = ("title",)
 
 
 admin.site.register(Project, ProjectAdmin)
