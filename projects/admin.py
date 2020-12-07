@@ -6,6 +6,7 @@ from .models import Project
 
 
 class ProjectAdmin(admin.ModelAdmin):
+    # Placeholder for customisation
     pass
 
 
