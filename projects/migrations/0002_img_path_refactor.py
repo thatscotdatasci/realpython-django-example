@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='project',
             name='image',
-            field=models.FilePathField(path='projects/img'),
+            field=models.FilePathField(path='/projects/img'),
         ),
     ]
