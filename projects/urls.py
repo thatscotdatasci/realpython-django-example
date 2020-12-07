@@ -6,7 +6,7 @@ from . import views
 
 app_name = "projects"
 urlpatterns = [
-    path('', views.ProjectIndex.as_view()),
+    path('', views.ProjectIndex.as_view(), name='index'),
     path('<int:pk>/', views.ProjectDetail.as_view(), name='detail'),
     path('test', views.test_endpoint),
     path('api_call', views.ApiCalls.as_view(), name="api_results")
