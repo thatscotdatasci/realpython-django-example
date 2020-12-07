@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +13,7 @@
     <ul>
     {% for project in page_obj %}
         <li>{{ project.title }} - {{ project.description }}</li>
+        <img src="{% static project.image %}" alt="Screenshot of project">
     {% empty %}
         <li>No projects yet </li>
     {% endfor %}
