@@ -9,7 +9,7 @@ from django.views.decorators.cache import cache_page
 from django.http import HttpResponse
 from django.views import generic
 
-from .models import Project
+from .models import Project, IMG_REL_PATH
 
 # Create your views here.
 
@@ -25,6 +25,11 @@ class ProjectIndex(generic.ListView):
     paginate_by = 10
     template_name = "projects/index.html"
     ordering = ["title"]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['img_rel_path'] = IMG_REL_PATH
+        return context
 
 
 @method_decorator(cache_page(CACHE_TTL), name='dispatch')

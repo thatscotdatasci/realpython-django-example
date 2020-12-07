@@ -13,7 +13,7 @@
     <ul>
     {% for project in page_obj %}
         <li>{{ project.title }} - {{ project.description }}</li>
-        <img src="{% static project.image %}" alt="Screenshot of project">
+        <img src="{% static img_rel_path|add:"/"|add:project.image %}" alt="Screenshot of project">
     {% empty %}
         <li>No projects yet </li>
     {% endfor %}
