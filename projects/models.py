@@ -8,3 +8,6 @@ class Project(models.Model):
     description = models.TextField()
     technology = models.CharField(max_length=20)
     image = models.FilePathField(path="projects/img")
+
+    def __repr__(self):
+        return self.title
