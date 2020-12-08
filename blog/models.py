@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinLengthValidator
 
 # Create your models here.
 
@@ -23,7 +24,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     author = models.CharField(max_length=60)
-    body = models.TextField()
+    body = models.TextField(validators=[MinLengthValidator(10, message="Comment must be at least 10 characters long")])
     created_on = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey('Post', related_name='comments',  on_delete=models.CASCADE)
 

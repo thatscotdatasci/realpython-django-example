@@ -1,3 +1,6 @@
+import functools
+import operator
+
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404
@@ -42,7 +45,9 @@ class BlogDetail(generic.DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
-        post = self.get_object()
+        self.object = self.get_object()
+        post = self.object
+
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = Comment(
@@ -52,4 +57,9 @@ class BlogDetail(generic.DetailView):
             )
             comment.save()
             return HttpResponseRedirect(reverse("blog:detail", args=(post.pk,)))
-        return render(request, reverse("blog:detail", args=(post.pk,)), {"form": form})
+        context = self.get_context_data()
+        context.update({
+            "error_message": functools.reduce(operator.concat, form.errors.values()),
+            "form": form
+        })
+        return render(request, self.template_name, context, status=400)

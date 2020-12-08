@@ -13,6 +13,7 @@
     </small>
     <p>{{ post.body | linebreaks }}</p>
     <h3>Leave a comment:</h3>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     <form action="/blog/{{ post.pk }}/" method="post">
         {% csrf_token %}
         <div class="form-group">

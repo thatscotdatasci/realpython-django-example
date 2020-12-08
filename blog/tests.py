@@ -141,3 +141,20 @@ class BlogDetailViewTest(TestCase):
         self.assertEqual(comment.author, comment_author)
         self.assertEqual(comment.body, comment_body)
         self.assertAlmostEqual(comment.created_on.timestamp(), datetime.datetime.now().timestamp(), delta=100)
+
+    def test_post_short_comment(self):
+        post = create_post()
+
+        comment_author = "J Blogs"
+        comment_body = "Too short"
+        new_comment = {"author": comment_author, "body": comment_body}
+
+        response = self.client.post(reverse("blog:detail", args=(post.pk,)), data=new_comment)
+        self.assertEqual(response.status_code, 400)
+
+        comments = Post.objects.get(pk=post.pk).comments.all()
+        self.assertEqual(len(comments), 0)
+
+        self.assertEqual(response.context["error_message"], ["Comment must be at least 10 characters long"])
+        self.assertEqual(response.context["form"]["author"].value(), comment_author)
+        self.assertEqual(response.context["form"]["body"].value(), comment_body)
