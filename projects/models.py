@@ -18,5 +18,9 @@ class Project(models.Model):
     technology = models.CharField(max_length=20)
     image = models.FilePathField(path=get_img_abs_path)
 
+    def save(self, *args, **kwargs):
+        self.image = os.path.basename(self.image)
+        super().save(*args, **kwargs)
+
     def __repr__(self):
         return self.title
