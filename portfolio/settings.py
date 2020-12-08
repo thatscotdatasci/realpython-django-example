@@ -177,3 +177,6 @@ CACHES = {
 LOGIN_REDIRECT_URL = "users:dashboard"
 LOGOUT_REDIRECT_URL = "users:dashboard"
 
+# python -m smtpd -n -c DebuggingServer 0.0.0.0:1025
+EMAIL_HOST = "0.0.0.0"
+EMAIL_PORT = 1025
