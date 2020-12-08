@@ -26,11 +26,13 @@ SECRET_KEY = 'qm^^@4e62ftt&m=ajp3%hequi9q2di^=$gh&2iz!8xm0-ipe09'
 DEBUG = True
 
 INTERNAL_IPS = [
+    'localhost',
+    '0.0.0.0',
     '127.0.0.1',
 ]
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
+    *INTERNAL_IPS
 ]
 
 # Application definition

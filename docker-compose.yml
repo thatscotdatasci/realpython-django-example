@@ -1,0 +1,17 @@
+version: '3'
+services:
+  django:
+    build: .
+    environment:
+      - DJANGO_SETTINGS_MODULE=portfolio.settings_docker
+      - REDIS_URL=redis://redis:6379
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/django/
+    depends_on:
+      - redis
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
