@@ -18,10 +18,9 @@ class BlogIndex(generic.ListView):
 class BlogCategoryIndex(generic.ListView):
     model = Post
     template_name = "blog/index.html"
-    ordering = ["created_on"]
 
     def get_queryset(self):
-        return Post.objects.filter(categories__name=self.kwargs['category'])
+        return Post.objects.filter(categories__name=self.kwargs['category']).order_by("-created_on")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
