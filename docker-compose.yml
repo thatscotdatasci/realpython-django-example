@@ -3,15 +3,32 @@ services:
   django:
     build: .
     environment:
-      - DJANGO_SETTINGS_MODULE=portfolio.settings_docker
-      - REDIS_URL=redis://redis:6379
+      - DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+      - REDIS_URL=$REDIS_URL
+      - POSTGRES_HOSTNAME=$POSTGRES_HOSTNAME
+      - POSTGRES_DB=$POSTGRES_DB
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
     ports:
       - "8000:8000"
     volumes:
       - .:/django/
     depends_on:
       - redis
+      - postgres
   redis:
     image: redis:latest
+    restart: always
     ports:
       - "6379:6379"
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      - POSTGRES_DB=$POSTGRES_DB
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
