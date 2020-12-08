@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # Custom apps
     'projects',
     'blog',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -171,3 +172,8 @@ CACHES = {
         }
     }
 }
+
+
+LOGIN_REDIRECT_URL = "users:dashboard"
+LOGOUT_REDIRECT_URL = "users:dashboard"
+
