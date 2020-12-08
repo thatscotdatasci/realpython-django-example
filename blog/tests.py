@@ -96,3 +96,48 @@ class BlobCategoryViewTests(TestCase):
             response.context["post_list"][1].created_on.timestamp(),
             delta=10
         )
+
+
+class BlogDetailViewTest(TestCase):
+
+    def test_content(self):
+        post = create_post(title="Post Title", body="This is my post content")
+        response = self.client.get(reverse("blog:detail", args=(post.pk,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["post"].title, post.title)
+        self.assertEqual(response.context["post"].body, post.body)
+
+    def test_no_comments(self):
+        post = create_post()
+        response = self.client.get(reverse("blog:detail", args=(post.pk,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No comments yet!")
+        self.assertQuerysetEqual(response.context["comments"], [])
+
+    def test_retrieve_comment(self):
+        post = create_post()
+        comment = create_comment(author="J Bloggs", body="Comment body", post=post)
+        response = self.client.get(reverse("blog:detail", args=(post.pk,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(
+            response.context["comments"], [f"{comment.post} - {comment.author} - {comment.created_on}"],
+            transform=str
+        )
+
+    def test_post_comment(self):
+        post = create_post()
+
+        comment_author = "J Blogs"
+        comment_body = "This is the body"
+        new_comment = {"author": comment_author, "body": comment_body}
+
+        response = self.client.post(reverse("blog:detail", args=(post.pk,)), data=new_comment)
+        self.assertEqual(response.status_code, 302)
+
+        comments = Post.objects.get(pk=post.pk).comments.all()
+        self.assertEqual(len(comments), 1)
+
+        comment = comments[0]
+        self.assertEqual(comment.author, comment_author)
+        self.assertEqual(comment.body, comment_body)
+        self.assertAlmostEqual(comment.created_on.timestamp(), datetime.datetime.now().timestamp(), delta=100)
