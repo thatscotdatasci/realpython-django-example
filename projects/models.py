@@ -22,5 +22,5 @@ class Project(models.Model):
         self.image = os.path.basename(self.image)
         super().save(*args, **kwargs)
 
-    def __repr__(self):
+    def __str__(self):
         return self.title

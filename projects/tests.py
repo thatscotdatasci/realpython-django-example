@@ -37,8 +37,8 @@ class ProjectIndexViewTests(TestCase):
         p = create_project()
         response = self.client.get(reverse("projects:index"))
         self.assertEqual(response.status_code, 200)
-        self.assertQuerysetEqual(response.context["page_obj"], [p.title]*3)
-        self.assertQuerysetEqual(response.context["project_list"], [p.title]*3)
+        self.assertQuerysetEqual(response.context["page_obj"], [p.title]*3, transform=str)
+        self.assertQuerysetEqual(response.context["project_list"], [p.title]*3, transform=str)
 
     def test_projects_pagination(self):
         for _ in range(19):
@@ -46,8 +46,8 @@ class ProjectIndexViewTests(TestCase):
         p = create_project()
         response = self.client.get(reverse("projects:index"))
         self.assertEqual(response.status_code, 200)
-        self.assertQuerysetEqual(response.context["page_obj"], [p.title]*10)
-        self.assertQuerysetEqual(response.context["project_list"], [p.title] * 10)
+        self.assertQuerysetEqual(response.context["page_obj"], [p.title]*10, transform=str)
+        self.assertQuerysetEqual(response.context["project_list"], [p.title] * 10, transform=str)
 
     def test_image_path_name_only(self):
         img_path = "image.png"
