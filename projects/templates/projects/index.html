@@ -6,21 +6,25 @@
 <h1>Real Python Tutorial</h1>
 <p>Following simple Real Python tutorial.</p>
 <ul>
-{% for project in page_obj %}
-    <div class="col-md-4">
-        <div class="card mb-2">
-            <img class="card-img-top" src="{% static img_rel_path|add:"/"|add:project.image %}">
-            <div class="card-body">
-                <h5 class="card-title">{{ project.title }}</h5>
-                <p class="card-text">{{ project.description }}</p>
-                <a href="{% url 'projects:detail' project.pk %}"
-                   class="btn btn-primary">
-                    Read More
-                </a>
+{%  if page_obj %}
+    {% for project in page_obj %}
+        <div class="col-md-4">
+            <div class="card mb-2">
+                <img class="card-img-top" src="{% static img_rel_path|add:"/"|add:project.image %}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ project.title }}</h5>
+                    <p class="card-text">{{ project.description }}</p>
+                    <a href="{% url 'projects:detail' project.pk %}"
+                       class="btn btn-primary">
+                        Read More
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-{% endfor %}
+    {% endfor %}
+{% else %}
+    <p>No projects yet!</p>
+{% endif %}
 </ul>
 
 <div class="pagination">
