@@ -179,6 +179,7 @@ CACHES = {
 
 
 # User management settings - using django builtin functionality
+LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "users:dashboard"
 LOGOUT_REDIRECT_URL = "users:dashboard"
 

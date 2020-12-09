@@ -2,6 +2,7 @@ import functools
 import operator
 
 from django.contrib.auth import login
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -12,6 +13,20 @@ from .forms import CustomUserCreationForm
 
 def dashboard(request):
     return render(request, "users/dashboard.html")
+
+
+def user_info(request):
+    text = f"""
+        Selected HttpRequest.user attributes:
+
+        username:     {request.user.username}
+        is_anonymous: {request.user.is_anonymous}
+        is_staff:     {request.user.is_staff}
+        is_superuser: {request.user.is_superuser}
+        is_active:    {request.user.is_active}
+    """
+
+    return HttpResponse(text, content_type="text/plain")
 
 
 def register(request):
