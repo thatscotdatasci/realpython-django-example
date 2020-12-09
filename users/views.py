@@ -1,7 +1,9 @@
 import functools
 import operator
 
+from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -29,6 +31,20 @@ def user_info(request):
     return HttpResponse(text, content_type="text/plain")
 
 
+@login_required
+def private_area(request):
+    return HttpResponse(
+        f"Members only area; you are logged in as: {request.user.username}",content_type="text/plain"
+    )
+
+
+@user_passes_test(lambda user: user.is_staff)
+def staff_area(request):
+    return HttpResponse(
+        f"Staff only area; you are logged in as: {request.user.username}", content_type="text/plain"
+    )
+
+
 def register(request):
     if request.method == "GET":
         return render(
@@ -48,3 +64,11 @@ def register(request):
             "form": form
         }
         return render(request, "users/register.html", context, status=400)
+
+
+@login_required
+def add_messages(request):
+    username = request.user.username
+    messages.add_message(request, messages.INFO, f"Hello, {username}")
+    messages.add_message(request, messages.WARNING, "DANGER WILL ROBINSON")
+    return HttpResponse("Messages added", content_type="text/plain")

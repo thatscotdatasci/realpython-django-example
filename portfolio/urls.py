@@ -23,8 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__/', include(debug_toolbar.urls)),
     path('see_request/', views.see_request, name="see_request"),
-    path('private_area/', views.private_area, name="private_area"),
-    path('staff_area/', views.staff_area, name="staff_area"),
     path('projects/', include('projects.urls')),
     path('blog/', include('blog.urls')),
     path('users/', include('users.urls')),
