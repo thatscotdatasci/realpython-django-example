@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'social_django',
     # Custom apps
     'projects',
     'blog',
@@ -78,6 +80,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
@@ -174,9 +178,21 @@ CACHES = {
 }
 
 
+# User management settings - using django builtin functionality
 LOGIN_REDIRECT_URL = "users:dashboard"
 LOGOUT_REDIRECT_URL = "users:dashboard"
 
+
+# Email settings
 # python -m smtpd -n -c DebuggingServer 0.0.0.0:1025
 EMAIL_HOST = "0.0.0.0"
 EMAIL_PORT = 1025
+
+
+# Authentication settings - extending of the django builtin
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "social_core.backends.github.GithubOAuth2",
+]
+SOCIAL_AUTH_GITHUB_KEY = os.environ.get("SOCIAL_AUTH_GITHUB_KEY")
+SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("SOCIAL_AUTH_GITHUB_SECRET")
