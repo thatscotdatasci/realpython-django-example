@@ -1,4 +1,4 @@
-.PHONY: up build local
+.PHONY: up build local update-reqs
 
 up:
 	@docker-compose up --build
@@ -12,3 +12,6 @@ local:
 	SOCIAL_AUTH_GITHUB_KEY=$$SOCIAL_AUTH_GITHUB_KEY \
 	SOCIAL_AUTH_GITHUB_SECRET=$$SOCIAL_AUTH_GITHUB_SECRET \
 	python manage.py runserver
+
+update-reqs:
+	@pip freeze > requirements.txt
