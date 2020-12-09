@@ -1,4 +1,9 @@
+from django.shortcuts import redirect
 from django.http import HttpResponse
+
+
+def index(request):
+    return redirect("projects:index")
 
 
 def see_request(request):
