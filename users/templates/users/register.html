@@ -3,6 +3,8 @@
 {% block content %}
 <h2>Register</h2>
 
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
 <form method="post">
     {% csrf_token %}
     {{form.as_p}}

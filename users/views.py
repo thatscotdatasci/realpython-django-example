@@ -1,3 +1,6 @@
+import functools
+import operator
+
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -20,6 +23,13 @@ def register(request):
     elif request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            user.backend = "django.contrib.auth.backends.ModelBackend"
+            user.save()
             login(request, user)
             return redirect(reverse("users:dashboard"))
+        context = {
+            "error_message": functools.reduce(operator.concat, form.errors.values()),
+            "form": form
+        }
+        return render(request, "users/register.html", context, status=400)
